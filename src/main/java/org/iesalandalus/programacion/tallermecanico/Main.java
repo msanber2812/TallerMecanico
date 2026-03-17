@@ -1,7 +1,17 @@
 package org.iesalandalus.programacion.tallermecanico;
 
+import org.iesalandalus.programacion.tallermecanico.modelo.Controlador;
+import org.iesalandalus.programacion.tallermecanico.modelo.Modelo;
+import org.iesalandalus.programacion.tallermecanico.modelo.Vista;
+
 public class Main {
     public static void main(String[] args) {
+        // Crear las instancias
+        Modelo modelo = new Modelo();
+        Vista vista = new Vista();
+        Controlador controlador = new Controlador(modelo, vista);
 
+        // Iniciar la aplicación
+        controlador.comenzar();
     }
 }
