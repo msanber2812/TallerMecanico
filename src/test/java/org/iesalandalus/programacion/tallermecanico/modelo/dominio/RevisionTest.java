@@ -1,8 +1,6 @@
 package org.iesalandalus.programacion.tallermecanico.modelo.dominio;
 
 import org.iesalandalus.programacion.tallermecanico.modelo.TallerMecanicoExcepcion;
-import org.iesalandalus.programacion.tallermecanico.modelo.Revision;
-import org.iesalandalus.programacion.tallermecanico.modelo.Vehiculo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

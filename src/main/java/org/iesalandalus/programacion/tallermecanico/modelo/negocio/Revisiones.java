@@ -1,7 +1,9 @@
-package org.iesalandalus.programacion.tallermecanico.modelo;
+package org.iesalandalus.programacion.tallermecanico.modelo.negocio;
 
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
-import org.iesalandalus.programacion.tallermecanico.modelo.dominio.TallerMecanicoExcepcion;
+import org.iesalandalus.programacion.tallermecanico.modelo.TallerMecanicoExcepcion;
+import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Revision;
+import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -39,25 +41,36 @@ public class Revisiones {
         return resultado;
     }
 
-    public void insertar(Revision revision) {
+    public void insertar(Revision revision) throws TallerMecanicoExcepcion {
         if (revision == null)
             throw new NullPointerException("No se puede insertar una revisión nula.");
 
         // Validar que no hay revisiones abiertas del cliente o vehículo
         for (Revision r : coleccion) {
             if (r.getCliente().equals(revision.getCliente()) && !r.estaCerrada()) {
-                throw new TallerMecanicoExcepcion("El cliente tiene otra revisión en curso.");
+                try {
+                    throw new TallerMecanicoExcepcion("El cliente tiene otra revisión en curso.");
+                } catch (TallerMecanicoExcepcion e) {
+                    throw new RuntimeException(e);
+                }
             }
             if (r.getVehiculo().equals(revision.getVehiculo()) && !r.estaCerrada()) {
-                throw new TallerMecanicoExcepcion("El vehículo está actualmente en revisión.");
+                try {
+                    throw new TallerMecanicoExcepcion("El vehículo está actualmente en revisión.");
+                } catch (TallerMecanicoExcepcion e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
 
-        // Validar que no hay revisiones posteriores cerradas
         for (Revision r : coleccion) {
             if (r.getCliente().equals(revision.getCliente()) && r.estaCerrada() &&
                     r.getFechaInicio().isAfter(revision.getFechaInicio())) {
-                throw new TallerMecanicoExcepcion("El cliente tiene una revisión posterior.");
+                try {
+                    throw new TallerMecanicoExcepcion("El cliente tiene una revisión posterior.");
+                } catch (TallerMecanicoExcepcion e) {
+                    throw new RuntimeException(e);
+                }
             }
             if (r.getVehiculo().equals(revision.getVehiculo()) && r.estaCerrada() &&
                     r.getFechaInicio().isAfter(revision.getFechaInicio())) {

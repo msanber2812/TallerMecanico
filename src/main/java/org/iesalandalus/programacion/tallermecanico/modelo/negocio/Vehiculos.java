@@ -1,6 +1,7 @@
-package org.iesalandalus.programacion.tallermecanico.modelo;
+package org.iesalandalus.programacion.tallermecanico.modelo.negocio;
 
-import org.iesalandalus.programacion.tallermecanico.modelo.dominio.TallerMecanicoExcepcion;
+import org.iesalandalus.programacion.tallermecanico.modelo.TallerMecanicoExcepcion;
+import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,15 +18,20 @@ public class Vehiculos {
         return new ArrayList<>(coleccion);
     }
 
-    public void insertar(Vehiculo vehiculo) {
+    public Vehiculos insertar(Vehiculo vehiculo) throws TallerMecanicoExcepcion {
         if (vehiculo == null) throw new NullPointerException("No se puede insertar un vehículo nulo.");
         if (coleccion.contains(vehiculo)) throw new TallerMecanicoExcepcion("Ya existe un vehículo con esa matrícula.");
         coleccion.add(vehiculo);
+        return null;
     }
 
     public void borrar(Vehiculo vehiculo) {
         if (vehiculo == null) throw new NullPointerException("No se puede borrar un vehículo nulo.");
-        if (!coleccion.remove(vehiculo)) throw new TallerMecanicoExcepcion("No existe ningún vehículo con esa matrícula.");
+        if (!coleccion.remove(vehiculo)) try {
+            throw new TallerMecanicoExcepcion("No existe ningún vehículo con esa matrícula.");
+        } catch (TallerMecanicoExcepcion e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Vehiculo buscar(Vehiculo vehiculo) {

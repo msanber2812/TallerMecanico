@@ -1,7 +1,7 @@
-package org.iesalandalus.programacion.tallermecanico.modelo;
+package org.iesalandalus.programacion.tallermecanico.modelo.negocio;
 
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
-import org.iesalandalus.programacion.tallermecanico.modelo.dominio.TallerMecanicoExcepcion;
+import org.iesalandalus.programacion.tallermecanico.modelo.TallerMecanicoExcepcion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +18,25 @@ public class Clientes {
         return new ArrayList<>(coleccion);
     }
 
-    public void insertar(Cliente cliente) {
+    public Cliente insertar(Cliente cliente) {
         if (cliente == null) throw new NullPointerException("No se puede insertar un cliente nulo.");
-        if (coleccion.contains(cliente)) throw new TallerMecanicoExcepcion("Ya existe un cliente con ese DNI.");
+        if (coleccion.contains(cliente)) try {
+            throw new TallerMecanicoExcepcion("Ya existe un cliente con ese DNI.");
+        } catch (TallerMecanicoExcepcion e) {
+            throw new RuntimeException(e);
+        }
         coleccion.add(cliente);
+        return cliente;
     }
 
-    public void borrar(Cliente cliente) {
+    public Cliente borrar(Cliente cliente) {
         if (cliente == null) throw new NullPointerException("No se puede borrar un cliente nulo.");
-        if (!coleccion.remove(cliente)) throw new TallerMecanicoExcepcion("No existe ningún cliente con ese DNI.");
+        if (!coleccion.remove(cliente)) try {
+            throw new TallerMecanicoExcepcion("No existe ningún cliente con ese DNI.");
+        } catch (TallerMecanicoExcepcion e) {
+            throw new RuntimeException(e);
+        }
+        return cliente;
     }
 
     public Cliente buscar(Cliente cliente) {
@@ -38,7 +48,11 @@ public class Clientes {
     public Cliente modificar(Cliente cliente, String nombre, String telefono) {
         if (cliente == null) throw new NullPointerException("No se puede modificar un cliente nulo.");
         Cliente encontrado = buscar(cliente);
-        if (encontrado == null) throw new TallerMecanicoExcepcion("No existe ningún cliente con ese DNI.");
+        if (encontrado == null) try {
+            throw new TallerMecanicoExcepcion("No existe ningún cliente con ese DNI.");
+        } catch (TallerMecanicoExcepcion e) {
+            throw new RuntimeException(e);
+        }
         if (nombre != null && !nombre.isBlank()) encontrado.setNombre(nombre);
         if (telefono != null && !telefono.isBlank()) encontrado.setTelefono(telefono);
         return encontrado;

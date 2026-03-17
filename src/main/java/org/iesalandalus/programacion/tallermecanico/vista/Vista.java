@@ -1,4 +1,4 @@
-package org.iesalandalus.programacion.tallermecanico.modelo;
+package org.iesalandalus.programacion.tallermecanico.vista;
 
 import java.time.LocalDate;
 

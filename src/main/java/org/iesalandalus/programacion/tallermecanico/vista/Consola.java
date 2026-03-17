@@ -1,6 +1,6 @@
-package org.iesalandalus.programacion.tallermecanico.modelo;
+package org.iesalandalus.programacion.tallermecanico.vista;
 
-import org.iesalandalus.programacion.tallermecanico.modelo.dominio.TallerMecanicoExcepcion;
+import org.iesalandalus.programacion.tallermecanico.modelo.TallerMecanicoExcepcion;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

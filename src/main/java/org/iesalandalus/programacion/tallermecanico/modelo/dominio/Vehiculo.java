@@ -1,4 +1,4 @@
-package org.iesalandalus.programacion.tallermecanico.modelo;
+package org.iesalandalus.programacion.tallermecanico.modelo.dominio;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,6 @@ public record Vehiculo(String marca, String modelo, String matricula) {
     private static final Map<String, Vehiculo> VEHICULOS = new HashMap<>();
 
     public Vehiculo {
-        // Validaciones
         if (marca == null) throw new NullPointerException("La marca no puede ser nula.");
         if (!marca.equals("Seat") && !marca.equals("Land Rover") && !marca.equals("KIA")
                 && !marca.equals("Rolls-Royce") && !marca.equals("SsangYong"))
@@ -25,8 +24,6 @@ public record Vehiculo(String marca, String modelo, String matricula) {
         if (matricula == null) throw new NullPointerException("La matrícula no puede ser nula.");
         if (!PATRON_MATRICULA.matcher(matricula).matches())
             throw new IllegalArgumentException("La matrícula no tiene un formato válido.");
-
-        // Registrar en mapa
         VEHICULOS.put(matricula, this);
     }
 
