@@ -45,7 +45,6 @@ public class Revisiones {
         if (revision == null)
             throw new NullPointerException("No se puede insertar una revisión nula.");
 
-        // Validar que no hay revisiones abiertas del cliente o vehículo
         for (Revision r : coleccion) {
             if (r.getCliente().equals(revision.getCliente()) && !r.estaCerrada()) {
                 try {
@@ -85,7 +84,11 @@ public class Revisiones {
         if (revision == null)
             throw new NullPointerException("No se puede borrar una revisión nula.");
         if (!coleccion.remove(revision))
-            throw new TallerMecanicoExcepcion("No existe ninguna revisión igual.");
+            try {
+                throw new TallerMecanicoExcepcion("No existe ninguna revisión igual.");
+            } catch (TallerMecanicoExcepcion e) {
+                throw new RuntimeException(e);
+            }
     }
 
     public Revision buscar(Revision revision) {
@@ -100,8 +103,16 @@ public class Revisiones {
             throw new NullPointerException("No puedo operar sobre una revisión nula.");
         Revision r = buscar(revision);
         if (r == null)
-            throw new TallerMecanicoExcepcion("No existe ninguna revisión igual.");
-        r.anadirHoras(horas);
+            try {
+                throw new TallerMecanicoExcepcion("No existe ninguna revisión igual.");
+            } catch (TallerMecanicoExcepcion e) {
+                throw new RuntimeException(e);
+            }
+        try {
+            r.anadirHoras(horas);
+        } catch (TallerMecanicoExcepcion e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void anadirPrecioMaterial(Revision revision, float precio) {
@@ -109,8 +120,16 @@ public class Revisiones {
             throw new NullPointerException("No puedo operar sobre una revisión nula.");
         Revision r = buscar(revision);
         if (r == null)
-            throw new TallerMecanicoExcepcion("No existe ninguna revisión igual.");
-        r.anadirPrecioMaterial(precio);
+            try {
+                throw new TallerMecanicoExcepcion("No existe ninguna revisión igual.");
+            } catch (TallerMecanicoExcepcion e) {
+                throw new RuntimeException(e);
+            }
+        try {
+            r.anadirPrecioMaterial(precio);
+        } catch (TallerMecanicoExcepcion e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void cerrar(Revision revision, LocalDate fechaFin) {
@@ -118,7 +137,15 @@ public class Revisiones {
             throw new NullPointerException("No puedo operar sobre una revisión nula.");
         Revision r = buscar(revision);
         if (r == null)
-            throw new TallerMecanicoExcepcion("No existe ninguna revisión igual.");
-        r.cerrar(fechaFin);
+            try {
+                throw new TallerMecanicoExcepcion("No existe ninguna revisión igual.");
+            } catch (TallerMecanicoExcepcion e) {
+                throw new RuntimeException(e);
+            }
+        try {
+            r.cerrar(fechaFin);
+        } catch (TallerMecanicoExcepcion e) {
+            throw new RuntimeException(e);
+        }
     }
 }

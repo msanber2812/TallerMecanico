@@ -10,14 +10,13 @@ public class Revision {
 
     public static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    private Cliente cliente;
-    private Vehiculo vehiculo;
-    private LocalDate fechaInicio;
+    private final Cliente cliente;
+    private final Vehiculo vehiculo;
+    private final LocalDate fechaInicio;
     private LocalDate fechaFin;
     private int horas;
     private float precioMaterial;
 
-    // ---------------- CONSTRUCTORES ----------------
 
     public Revision(Cliente cliente, Vehiculo vehiculo, LocalDate fechaInicio) {
         if (cliente == null) throw new NullPointerException("El cliente no puede ser nulo.");
@@ -25,15 +24,14 @@ public class Revision {
         if (fechaInicio == null) throw new NullPointerException("La fecha de inicio no puede ser nula.");
         if (fechaInicio.isAfter(LocalDate.now())) throw new IllegalArgumentException("La fecha de inicio no puede ser futura.");
 
-        this.cliente = new Cliente(cliente); // copia del cliente
-        this.vehiculo = vehiculo; // inmutable
+        this.cliente = new Cliente(cliente);
+        this.vehiculo = vehiculo;
         this.fechaInicio = fechaInicio;
         this.fechaFin = null;
         this.horas = 0;
         this.precioMaterial = 0;
     }
 
-    // Constructor copia
     public Revision(Revision revision) {
         if (revision == null) throw new NullPointerException("La revisión no puede ser nula.");
         this.cliente = new Cliente(revision.cliente);
@@ -44,7 +42,6 @@ public class Revision {
         this.precioMaterial = revision.precioMaterial;
     }
 
-    // ---------------- MÉTODOS DE ACCESO ----------------
 
     public Cliente getCliente() {
         return cliente;
@@ -74,7 +71,6 @@ public class Revision {
         return fechaFin != null;
     }
 
-    // ---------------- MÉTODOS DE MODIFICACIÓN ----------------
 
     public void anadirHoras(int horas) throws TallerMecanicoExcepcion {
         if (estaCerrada())
@@ -105,12 +101,9 @@ public class Revision {
         this.fechaFin = fechaFin;
     }
 
-    // ---------------- MÉTODO DE CÁLCULO ----------------
+
 
     public float getPrecio() {
-        // Precio base por hora = 10
-        // Coste material = precioMaterial
-        // Recargo por día = 10% por cada día desde fechaInicio hasta fechaFin
         int dias = 0;
         if (fechaFin != null && !fechaFin.isBefore(fechaInicio)) {
             dias = (int) (fechaFin.toEpochDay() - fechaInicio.toEpochDay());
@@ -121,13 +114,11 @@ public class Revision {
         return totalHoras + totalMaterial + recargoDias;
     }
 
-    // ---------------- EQUALS Y HASHCODE ----------------
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (!(obj instanceof Revision)) return false;
-        Revision other = (Revision) obj;
+        if (!(obj instanceof Revision other)) return false;
         return cliente.equals(other.cliente) &&
                 vehiculo.equals(other.vehiculo) &&
                 fechaInicio.equals(other.fechaInicio);
@@ -138,7 +129,6 @@ public class Revision {
         return Objects.hash(cliente, vehiculo, fechaInicio);
     }
 
-    // ---------------- TOSTRING ----------------
 
     @Override
     public String toString() {

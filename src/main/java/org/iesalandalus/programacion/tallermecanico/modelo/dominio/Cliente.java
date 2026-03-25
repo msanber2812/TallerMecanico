@@ -11,26 +11,20 @@ public class Cliente {
     private String dni;
     private String telefono;
 
-    // Expresiones regulares
     private static final String ER_NOMBRE = "([A-Z][a-z]+( [A-Z][a-z]+)*)";
     private static final String ER_DNI = "(\\d{8}[A-Z])";
     private static final String ER_TELEFONO = "\\d{9}";
 
-    // Almacenamiento estático de clientes por DNI (simulación)
     private static final Map<String, Cliente> clientes = new HashMap<>();
 
-    // ---------------- CONSTRUCTORES ----------------
 
     public Cliente(String nombre, String dni, String telefono) {
         setNombre(nombre);
         setDni(dni);
         setTelefono(telefono);
-
-        // Guardar cliente en mapa para método get()
         clientes.put(dni, this);
     }
 
-    // Constructor copia
     public Cliente(Cliente cliente) {
         if (cliente == null) {
             throw new NullPointerException("No es posible copiar un cliente nulo.");
@@ -42,7 +36,6 @@ public class Cliente {
         clientes.put(this.dni, this);
     }
 
-    // ---------------- MÉTODOS DE MODIFICACIÓN ----------------
 
     public void setNombre(String nombre) {
         if (nombre == null) {
@@ -62,7 +55,7 @@ public class Cliente {
         if (!Pattern.matches(ER_DNI, dni)) {
             throw new IllegalArgumentException("El DNI no tiene un formato válido.");
         }
-        if (!esLetraCorrecta(dni)) {
+        if (esLetraCorrecta(dni)) {
             throw new IllegalArgumentException("La letra del DNI no es correcta.");
         }
         this.dni = dni;
@@ -78,7 +71,7 @@ public class Cliente {
         this.telefono = telefono.trim();
     }
 
-    // ---------------- MÉTODOS DE ACCESO ----------------
+
 
     public String getNombre() {
         return nombre;
@@ -92,7 +85,7 @@ public class Cliente {
         return telefono;
     }
 
-    // ---------------- MÉTODO ESTÁTICO get ----------------
+
 
     public static Cliente get(String dni) {
         if (dni == null) {
@@ -102,28 +95,26 @@ public class Cliente {
         if (!Pattern.matches(ER_DNI, dni)) {
             throw new IllegalArgumentException("El DNI no tiene un formato válido.");
         }
-        if (!esLetraCorrecta(dni)) {
+        if (esLetraCorrecta(dni)) {
             throw new IllegalArgumentException("La letra del DNI no es correcta.");
         }
         return clientes.get(dni);
     }
 
-    // ---------------- MÉTODOS AUXILIARES ----------------
+
 
     private static boolean esLetraCorrecta(String dni) {
         final String letras = "TRWAGMYFPDXBNJZSQVHLCKE";
         int numero = Integer.parseInt(dni.substring(0, 8));
         char letra = dni.charAt(8);
-        return letra == letras.charAt(numero % 23);
+        return letra != letras.charAt(numero % 23);
     }
 
-    // ---------------- EQUALS Y HASHCODE ----------------
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (!(obj instanceof Cliente)) return false;
-        Cliente other = (Cliente) obj;
+        if (!(obj instanceof Cliente other)) return false;
         return dni.equals(other.dni);
     }
 
@@ -132,7 +123,6 @@ public class Cliente {
         return Objects.hash(dni);
     }
 
-    // ---------------- TOSTRING ----------------
 
     @Override
     public String toString() {

@@ -30,11 +30,11 @@ public class Modelo {
         clientes.insertar(cliente);
     }
 
-    public void insertar(Vehiculo vehiculo) {
+    public void insertar(Vehiculo vehiculo) throws TallerMecanicoExcepcion {
         vehiculos.insertar(vehiculo);
     }
 
-    public void insertar(Revision revision) {
+    public void insertar(Revision revision) throws TallerMecanicoExcepcion {
         Cliente cliente = clientes.buscar(revision.getCliente());
         Vehiculo vehiculo = vehiculos.buscar(revision.getVehiculo());
         revisiones.insertar(revision);
@@ -72,7 +72,7 @@ public class Modelo {
         revisiones.cerrar(revision, fechaFin);
     }
 
-    // ---------- Borrar ----------
+
     public void borrar(Cliente cliente) {
         for (Revision r : new ArrayList<>(revisiones.get(cliente))) {
             revisiones.borrar(r);
