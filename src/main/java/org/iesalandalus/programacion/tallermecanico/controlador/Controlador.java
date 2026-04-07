@@ -15,7 +15,6 @@ public class Controlador {
     private Modelo modelo;
     private Vista vista;
 
-    // Constructor con parámetros
     public Controlador(Modelo modelo, Vista vista) {
         if (modelo == null || vista == null) {
             throw new IllegalArgumentException("Modelo y Vista no pueden ser null");
@@ -23,11 +22,10 @@ public class Controlador {
         this.modelo = modelo;
         this.vista = vista;
 
-        // Asignar controlador a la vista
         this.vista.setControlador(this);
     }
 
-    // ---------------- INICIO / FIN ----------------
+
 
     public void comenzar() {
         modelo.comenzar();
@@ -39,7 +37,7 @@ public class Controlador {
         vista.terminar();
     }
 
-    // ---------------- MÉTODOS DE CLIENTE ----------------
+
 
     public void insertarCliente(Cliente cliente) throws TallerMecanicoExcepcion {
         modelo.insertar(cliente);
@@ -62,7 +60,7 @@ public class Controlador {
         return modelo.getClientes();
     }
 
-    // ---------------- MÉTODOS DE VEHÍCULO ----------------
+
 
     public void insertarVehiculo(Vehiculo vehiculo) throws TallerMecanicoExcepcion {
         modelo.insertar(vehiculo);
@@ -80,7 +78,7 @@ public class Controlador {
         return modelo.getVehiculos();
     }
 
-    // ---------------- MÉTODOS DE REVISIÓN ----------------
+
 
     public void insertarRevision(Revision revision) throws TallerMecanicoExcepcion {
         modelo.insertar(revision);
@@ -90,7 +88,7 @@ public class Controlador {
         return modelo.buscar(revision);
     }
 
-    public Revision anadirHoras(Revision revision, float horas) throws TallerMecanicoExcepcion {
+    public Revision anadirHoras(Revision revision, int horas) throws TallerMecanicoExcepcion {
         return modelo.anadirHoras(revision, horas);
     }
 

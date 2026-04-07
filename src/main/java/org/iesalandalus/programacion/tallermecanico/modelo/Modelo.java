@@ -23,6 +23,9 @@ public class Modelo {
         this.revisiones = new Revisiones();
     }
 
+    public void comenzar () {
+
+    }
     public void terminar() {
     }
 
@@ -56,20 +59,24 @@ public class Modelo {
         return r;
     }
 
-    public void modificar(Cliente cliente, String nombre, String telefono) {
+    public Cliente modificar(Cliente cliente, String nombre, String telefono) {
         clientes.modificar(cliente, nombre, telefono);
+        return cliente;
     }
 
-    public void anadirHoras(Revision revision, int horas) {
+    public Revision anadirHoras(Revision revision, int horas) {
         revisiones.anadirHoras(revision, horas);
+        return revision;
     }
 
-    public void anadirPrecioMaterial(Revision revision, float precio) {
+    public Revision anadirPrecioMaterial(Revision revision, float precio) {
         revisiones.anadirPrecioMaterial(revision, precio);
+        return revision;
     }
 
-    public void cerrar(Revision revision, LocalDate fechaFin) {
+    public Revision cerrar(Revision revision, LocalDate fechaFin) {
         revisiones.cerrar(revision, fechaFin);
+        return revision;
     }
 
 
