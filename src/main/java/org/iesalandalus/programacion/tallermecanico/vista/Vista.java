@@ -39,11 +39,11 @@ public class Vista {
 
                 case INSERTAR_VEHICULO -> insertarVehiculo();
                 case BUSCAR_VEHICULO -> buscarVehiculo();
-                case BORRAR_VEHICULO -> opcionBorrarVehiculo();
+                case BORRAR_VEHICULO -> borrarVehiculo();
 
                 case INSERTAR_REVISION -> insertarRevision();
                 case BUSCAR_REVISION -> buscarRevision();
-                case ANADIR_HORAS_REVISION -> opcionAnadirHoras();
+                case ANADIR_HORAS_REVISION -> anadirHoras();
                 case ANADIR_PRECIO_MATERIAL_REVISION -> opcionAnadirMaterial();
                 case CERRAR_REVISION -> cerrarRevision();
                 case BORRAR_REVISION -> opcionBorrarRevision();

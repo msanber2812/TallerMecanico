@@ -25,7 +25,7 @@ public enum Opcion {
     CERRAR_REVISION(12, "Cerrar revisión"),
     BORRAR_REVISION(13, "Borrar revisión"),
     LISTAR_REVISIONES(34, "Listar revisiones"),
-    LISTAR_REVISIONES_CLIENTE(35, "Liistar revisiones de un cliente."),
+    LISTAR_REVISIONES_CLIENTE(35, "Listar revisiones de un cliente."),
     LISTAR_REVISIONES_VEHICULO(36, "Listar revisiones de un vehiculo."),
 
     SALIR(0, "Salir");
