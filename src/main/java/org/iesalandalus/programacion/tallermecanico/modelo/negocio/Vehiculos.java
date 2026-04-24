@@ -25,6 +25,12 @@ public class Vehiculos {
         return null;
     }
 
+    public Vehiculo buscar(Vehiculo vehiculo) {
+        if (vehiculo == null) throw new NullPointerException("No se puede buscar un vehículo nulo.");
+        int index = coleccion.indexOf(vehiculo);
+        return index != -1 ? coleccion.get(index) : null;
+    }
+
     public void borrar(Vehiculo vehiculo) {
         if (vehiculo == null) throw new NullPointerException("No se puede borrar un vehículo nulo.");
         if (!coleccion.remove(vehiculo)) try {
@@ -32,11 +38,5 @@ public class Vehiculos {
         } catch (TallerMecanicoExcepcion e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public Vehiculo buscar(Vehiculo vehiculo) {
-        if (vehiculo == null) throw new NullPointerException("No se puede buscar un vehículo nulo.");
-        int index = coleccion.indexOf(vehiculo);
-        return index != -1 ? coleccion.get(index) : null;
     }
 }

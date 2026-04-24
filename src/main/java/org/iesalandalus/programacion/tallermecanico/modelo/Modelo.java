@@ -24,7 +24,6 @@ public class Modelo {
     }
 
     public void comenzar () {
-
     }
     public void terminar() {
     }

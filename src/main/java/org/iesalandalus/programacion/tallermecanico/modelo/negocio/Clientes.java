@@ -20,10 +20,12 @@ public class Clientes {
 
     public Cliente insertar(Cliente cliente) {
         if (cliente == null) throw new NullPointerException("No se puede insertar un cliente nulo.");
-        if (coleccion.contains(cliente)) try {
-            throw new TallerMecanicoExcepcion("Ya existe un cliente con ese DNI.");
-        } catch (TallerMecanicoExcepcion e) {
-            throw new RuntimeException(e);
+        if (coleccion.contains(cliente)) {
+            try {
+                throw new TallerMecanicoExcepcion("Ya existe un cliente con ese DNI.");
+            } catch (TallerMecanicoExcepcion e) {
+                throw new RuntimeException(e);
+            }
         }
         coleccion.add(cliente);
         return cliente;
