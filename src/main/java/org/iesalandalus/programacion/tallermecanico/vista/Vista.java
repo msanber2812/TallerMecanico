@@ -45,7 +45,7 @@ public class Vista {
                 case BUSCAR_REVISION -> buscarRevision();
                 case ANADIR_HORAS_REVISION -> opcionAnadirHoras();
                 case ANADIR_PRECIO_MATERIAL_REVISION -> opcionAnadirMaterial();
-                case CERRAR_REVISION -> opcionCerrarRevision();
+                case CERRAR_REVISION -> cerrarRevision();
                 case BORRAR_REVISION -> opcionBorrarRevision();
 
                 case SALIR -> terminar();
