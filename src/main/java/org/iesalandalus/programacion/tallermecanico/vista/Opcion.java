@@ -11,54 +11,54 @@ public enum Opcion {
     BUSCAR_CLIENTE(2, "Buscar cliente"),
     MODIFICAR_CLIENTE(3, "Modificar cliente"),
     BORRAR_CLIENTE(4, "Borrar cliente"),
+    LISTAR_CLIENTES(14, "Listar clientes."),
 
     INSERTAR_VEHICULO(5, "Insertar vehículo"),
     BUSCAR_VEHICULO(6, "Buscar vehículo"),
     BORRAR_VEHICULO(7, "Borrar vehículo"),
+    LISTAR_VEHICULO(24, "Listar vehículos."),
 
     INSERTAR_REVISION(8, "Insertar revisión"),
     BUSCAR_REVISION(9, "Buscar revisión"),
-    ANADIR_HORAS(10, "Añadir horas"),
-    ANADIR_MATERIAL(11, "Añadir precio material"),
+    ANADIR_HORAS_REVISION(10, "Añadir horas"),
+    ANADIR_PRECIO_MATERIAL_REVISION(11, "Añadir precio material"),
     CERRAR_REVISION(12, "Cerrar revisión"),
     BORRAR_REVISION(13, "Borrar revisión"),
+    LISTAR_REVISIONES(34, "Listar revisiones"),
+    LISTAR_REVISIONES_CLIENTE(35, "Liistar revisiones de un cliente."),
+    LISTAR_REVISIONES_VEHICULO(36, "Listar revisiones de un vehiculo."),
 
     SALIR(0, "Salir");
 
-    private int numero;
-    private String texto;
+    private final int numeroOpcion;
+    private final String texto;
+    private static Map<Integer, Opcion> opciones = new HashMap<>();
 
-    private static Map<Integer, Opcion> mapa = new HashMap<>();
-
-    // Inicialización del mapa
     static {
-        for (Opcion opcion : Opcion.values()) {
-            mapa.put(opcion.numero, opcion);
+        for (Opcion opcion : values()) {
+            opciones.put(opcion.numeroOpcion, opcion);
         }
     }
 
-    // Constructor
-    private Opcion(int numero, String texto) {
-        this.numero = numero;
+    private Opcion(int numeroOpcion, String texto) {
+        this.numeroOpcion = numeroOpcion;
         this.texto = texto;
     }
 
-    // Método para comprobar si es válida
-    public static boolean esValida(int numero) {
-        return mapa.containsKey(numero);
+    public static boolean esValida(int numeroOpcion) {
+        return opciones.containsKey(numeroOpcion);
     }
 
-    // Obtener opción
-    public static Opcion get(int numero) throws TallerMecanicoExcepcion {
-        if (!esValida(numero)) {
+
+    public static Opcion get(int numeroOpcion) throws TallerMecanicoExcepcion {
+        if (!esValida(numeroOpcion)) {
             throw new TallerMecanicoExcepcion("Opción no válida");
         }
-        return mapa.get(numero);
+        return opciones.get(numeroOpcion);
     }
 
-    // toString
     @Override
     public String toString() {
-        return String.format("%d.- %s", numero, texto);
+        return String.format("%d.- %s", numeroOpcion, texto);
     }
 }

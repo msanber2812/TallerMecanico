@@ -11,109 +11,124 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente.clientes;
+
 public class Modelo {
 
     private final Clientes clientes;
     private final Vehiculos vehiculos;
     private final Revisiones revisiones;
 
-    public Modelo() {
+    public Modelo() { comenzar(); }
+
+    public void comenzar () {
         this.clientes = new Clientes();
         this.vehiculos = new Vehiculos();
         this.revisiones = new Revisiones();
     }
-
-    public void comenzar () {
     }
     public void terminar() {
     }
 
-    public void insertar(Cliente cliente) {
-        clientes.insertar(cliente);
+    public void insertar(Cliente cliente) throws TallerMecanicoExcepcion {
+        clientes.insertar(new Cliente(cliente));
     }
 
     public void insertar(Vehiculo vehiculo) throws TallerMecanicoExcepcion {
         vehiculos.insertar(vehiculo);
     }
 
-    public void insertar(Revision revision) throws TallerMecanicoExcepcion {
+    public void insertar (Revision revision) throws TallerMecanicoExcepcion {
         Cliente cliente = clientes.buscar(revision.getCliente());
         Vehiculo vehiculo = vehiculos.buscar(revision.getVehiculo());
-        revisiones.insertar(revision);
+        revisiones.insertar(new Revision(cliente, vehiculo, revision, getFechaInicio()));
     }
 
+
     public Cliente buscar(Cliente cliente) {
-        Cliente c = clientes.buscar(cliente);
-        if (c == null) return null;
-        return new Cliente(c.getDni(), c.getNombre(), c.getTelefono());
+        cliente = Object.requireNonNull (clientes.buscar(cliente),"No existe un cliente igual");
+        return new Cliente(cliente);
     }
 
     public Vehiculo buscar(Vehiculo vehiculo) {
-        return vehiculos.buscar(vehiculo);
+        vehiculo = Object.requireNonNull (vehiculos.buscar(vehiculo),"No existe un vehiculo igual");
+        return vehiculo;
     }
 
     public Revision buscar(Revision revision) {
-        Revision r = revisiones.buscar(revision);
-        if (r == null) return null;
-        return r;
+        revision = Object.requireNonNull (revisiones.buscar(revision),"No existe una revision igual");
+        return new Revision(revision);
     }
 
-    public Cliente modificar(Cliente cliente, String nombre, String telefono) {
-        clientes.modificar(cliente, nombre, telefono);
-        return cliente;
+    public Cliente modificar(Cliente cliente, String nombre, String telefono) throws TallerMecanicoExcepcion {
+        return new Cliente(clientes.modificar(cliente, nombre, telefono));
     }
 
-    public Revision anadirHoras(Revision revision, int horas) {
-        revisiones.anadirHoras(revision, horas);
-        return revision;
+    public Revision anadirHoras(Revision revision, int horas) throws TallerMecanicoExcepcion {
+        return new Revision(revisiones.anadirHoras(revision, horas));
     }
 
-    public Revision anadirPrecioMaterial(Revision revision, float precio) {
-        revisiones.anadirPrecioMaterial(revision, precio);
-        return revision;
+    public Revision anadirPrecioMaterial(Revision revision, float precio) throws TallerMecanicoExcepcion {
+        return new Revision(revisiones.anadirPrecioMaterial(revision, precio));
     }
 
-    public Revision cerrar(Revision revision, LocalDate fechaFin) {
-        revisiones.cerrar(revision, fechaFin);
-        return revision;
+    public Revision cerrar(Revision revision, LocalDate fechaFin) throws TallerMecanicoExcepcion {
+        return new Revision(revisiones.cerrar(revision, fechaFin));
     }
 
 
     public void borrar(Cliente cliente) {
-        for (Revision r : new ArrayList<>(revisiones.get(cliente))) {
-            revisiones.borrar(r);
+        List<Revision> revisionesCliente = revisiones.get(cliente);
+        for (Revision revision : revisiones.Cliente) {
+            revisiones.borrar(revision);
         }
         clientes.borrar(cliente);
     }
 
-    public void borrar(Vehiculo vehiculo) {
-        for (Revision r : new ArrayList<>(revisiones.get(vehiculo))) {
-            revisiones.borrar(r);
+    public void borrar(Vehiculo vehiculo) throws TallerMecanicoExcepcion {
+        List<Revision> revisionesVehiculo = revisiones.get(vehiculo);
+        for (Revision revision : revisionesVehiculo) {
+            revisiones.borrar(revision);
         }
         vehiculos.borrar(vehiculo);
     }
 
-    public void borrar(Revision revision) {
+    public void borrar(Revision revision) throws TallerMecanicoExcepcion {
         revisiones.borrar(revision);
     }
 
     public List<Cliente> getClientes() {
-        return clientes.get();
+        List<Cliente> copiaClientes = new ArrayList<>();
+        for (Cliente cliente) : clientes.get()) {
+            copiaClientes.add(new Cliente(cliente));
+        return copiaClientes;
     }
 
     public List<Vehiculo> getVehiculos() {
         return vehiculos.get();
-    }
+        }
 
     public List<Revision> getRevisiones() {
-        return revisiones.get();
+            List<Revision> copiaRevisiones = new ArrayList<>();
+            for (Revision revision : revisiones.get()) {
+                copiaRevisiones.add(new Revision(revision));
+            }
+            return copiaRevisiones.get();
     }
 
     public List<Revision> getRevisiones(Cliente cliente) {
-        return revisiones.get(cliente);
+        List<Revision> revisionesCliente = new ArrayList<>();
+        for (Revision revision : revisiones.get(cliente)) {
+            revisionesCliente.add(new Revision(revision));
+        }
+        return revisionesCliente;
     }
 
     public List<Revision> getRevisiones(Vehiculo vehiculo) {
-        return revisiones.get(vehiculo);
+        List<Revision> revisionesVehiculo = new ArrayList<>();
+        for (Revision revision : revisiones.get(vehiculo)) {
+            revisionesVehiculo.add(new Revision(revision));
+        }
+        return revisiones.Vehiculo;
     }
 }
