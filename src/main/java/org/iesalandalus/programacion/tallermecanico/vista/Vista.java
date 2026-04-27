@@ -1,6 +1,10 @@
 package org.iesalandalus.programacion.tallermecanico.vista;
 
 import org.iesalandalus.programacion.tallermecanico.controlador.Controlador;
+import org.iesalandalus.programacion.tallermecanico.modelo.TallerMecanicoExcepcion;
+import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
+import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Revision;
+import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -34,8 +38,8 @@ public class Vista {
             switch (opcion) {
                 case INSERTAR_CLIENTE -> insertarCliente();
                 case BUSCAR_CLIENTE -> buscarCliente();
-                case MODIFICAR_CLIENTE -> opcionModificarCliente();
-                case BORRAR_CLIENTE -> opcionBorrarCliente();
+                case MODIFICAR_CLIENTE -> ModificarCliente();
+                case BORRAR_CLIENTE -> borrarCliente();
 
                 case INSERTAR_VEHICULO -> insertarVehiculo();
                 case BUSCAR_VEHICULO -> buscarVehiculo();
@@ -44,175 +48,100 @@ public class Vista {
                 case INSERTAR_REVISION -> insertarRevision();
                 case BUSCAR_REVISION -> buscarRevision();
                 case ANADIR_HORAS_REVISION -> anadirHoras();
-                case ANADIR_PRECIO_MATERIAL_REVISION -> opcionAnadirMaterial();
+                case ANADIR_PRECIO_MATERIAL_REVISION -> anadirMaterial();
                 case CERRAR_REVISION -> cerrarRevision();
-                case BORRAR_REVISION -> opcionBorrarRevision();
+                case BORRAR_REVISION -> borrarRevision();
 
                 case SALIR -> terminar();
             }
+        }catch (Exception e) {
+            System.out.printf("ERROR: %s%n", e.getMessage());
         }
     }
 
 
 
-    private void opcionInsertarCliente() {
-        consola.mostrarCabecera("Insertar Cliente");
-        try {
-            String nombre = consola.leerCadena("Nombre");
-            String dni = consola.leerCadena("DNI");
-            String telefono = consola.leerCadena("Teléfono");
-
-
-            consola.mostrarMensaje("Cliente insertado correctamente (simulado)");
-        } catch (Exception e) {
-            consola.mostrarMensaje("Error al insertar cliente: " + e.getMessage());
-        }
+    private void insertarCliente() throws TallerMecanicoExcepcion {
+        Consola.mostrarCabecera("Insertar Cliente");
+        controlador.insertar(Consola.leerCliente());
+        System.out.println("Cliente insertado correctamente.");
     }
 
-    private void opcionBuscarCliente() {
-        consola.mostrarCabecera("Buscar Cliente");
-        try {
-            String dni = consola.leerCadena("DNI");
-
-            consola.mostrarMensaje("Cliente encontrado (simulado)");
-        } catch (Exception e) {
-            consola.mostrarMensaje("Error al buscar cliente: " + e.getMessage());
-        }
+    private void buscarCliente() {
+        Consola.mostrarCabecera("Buscar Cliente");
+        Cliente cliente = controlador.buscar (Consola.leerClienteDni());
+        System.out.println((cliente !=null) ? cliente : "No existe ningun cliente con dicho DNI. ");
     }
 
-    private void opcionModificarCliente() {
-        consola.mostrarCabecera("Modificar Cliente");
-        try {
-            String dni = consola.leerCadena("DNI");
-            String nombre = consola.leerCadena("Nuevo nombre (dejar vacío para no cambiar)");
-            String telefono = consola.leerCadena("Nuevo teléfono (dejar vacío para no cambiar)");
-
-            consola.mostrarMensaje("Cliente modificado correctamente (simulado)");
-        } catch (Exception e) {
-            consola.mostrarMensaje("Error al modificar cliente: " + e.getMessage());
-        }
+    private void ModificarCliente() throws TallerMecanicoExcepcion {
+        Consola.mostrarCabecera("Modificar Cliente");
+        controlador.modificar(Consola.leerClienteDni(), Consola.leerNuevoNombre(), Consola.leerNuevoTelefono());
+        System.out.println("El cliente se ha modificado correctamente. ");
     }
 
-    private void opcionBorrarCliente() {
-        consola.mostrarCabecera("Borrar Cliente");
-        try {
-            String dni = consola.leerCadena("DNI");
-            // controlador.borrarCliente(dni)
-            consola.mostrarMensaje("Cliente borrado correctamente (simulado)");
-        } catch (Exception e) {
-            consola.mostrarMensaje("Error al borrar cliente: " + e.getMessage());
-        }
+    private void anadirHoras() throws TallerMecanicoExcepcion {
+        Consola.mostrarCabecera("Añadir horas Revision");
+        controlador.añadirHoras(Consola.leerRevision(), Consola.leerHoras());
+        System.out.println("Horas añadidas correctamente. ");
+    }
+
+    private void borrarRevision() throws TallerMecanicoExcepcion {
+        Consola.mostrarCabecera("Borrar Revision");
+        controlador.borrar(Consola.leerRevision());
+        System.out.println("Revision borrada correctamente. ");
     }
 
 
 
-    private void opcionInsertarVehiculo() {
-        consola.mostrarCabecera("Insertar Vehículo");
-        try {
-            String marca = consola.leerCadena("Marca");
-            String modelo = consola.leerCadena("Modelo");
-            String matricula = consola.leerCadena("Matrícula");
-
-            consola.mostrarMensaje("Vehículo insertado correctamente (simulado)");
-        } catch (Exception e) {
-            consola.mostrarMensaje("Error al insertar vehículo: " + e.getMessage());
-        }
+    private void insertarVehiculo() {
+        Consola.mostrarCabecera("Insertar Vehículo");
+        controlador.insertar(Consola.leerVehiculo());
+        System.out.println("Vehiculo insertado correctamente.");
     }
 
-    private void opcionBuscarVehiculo() {
-        consola.mostrarCabecera("Buscar Vehículo");
-        try {
-            String matricula = consola.leerCadena("Matrícula");
-
-            consola.mostrarMensaje("Vehículo encontrado (simulado)");
-        } catch (Exception e) {
-            consola.mostrarMensaje("Error al buscar vehículo: " + e.getMessage());
-        }
+    private void buscarVehiculo() {
+        Consola.mostrarCabecera("Buscar Vehículo");
+        Vehiculo vehiculo = controlador.buscar(Consola.leerVehiculoMatricula());
+        System.out.println((vehiculo != null) ? vehiculo : "No existe ningun vehiculo con dicha matricula. ");
     }
 
-    private void opcionBorrarVehiculo() {
-        consola.mostrarCabecera("Borrar Vehículo");
-        try {
-            String matricula = consola.leerCadena("Matrícula");
-
-            consola.mostrarMensaje("Vehículo borrado correctamente (simulado)");
-        } catch (Exception e) {
-            consola.mostrarMensaje("Error al borrar vehículo: " + e.getMessage());
-        }
+    private void borrarVehiculo() throws TallerMecanicoExcepcion {
+        Consola.mostrarCabecera("Borrar Vehículo");
+        controlador.borrar(Consola.leerVehiculoMatricula());
+        System.out.println("Vehiculo borrado correctamente. ");
     }
 
 
 
-    private void opcionInsertarRevision() {
-        consola.mostrarCabecera("Insertar Revisión");
-        try {
-            String dni = consola.leerCadena("DNI del cliente");
-            String matricula = consola.leerCadena("Matrícula del vehículo");
-            LocalDate fechaInicio = consola.leerFecha("Fecha de inicio");
-
-            // controlador.insertarRevision(dni, matricula, fechaInicio)
-            consola.mostrarMensaje("Revisión insertada correctamente (simulado)");
-        } catch (Exception e) {
-            consola.mostrarMensaje("Error al insertar revisión: " + e.getMessage());
-        }
+    private void insertarRevision() throws TallerMecanicoExcepcion {
+        Consola.mostrarCabecera("Insertar Revisión");
+       controlador.insertar(Consola.leerRevision());
+       System.out.println("Revision insertada correctamente.");
     }
 
-    private void opcionBuscarRevision() {
-        consola.mostrarCabecera("Buscar Revisión");
-        try {
-            String dni = consola.leerCadena("DNI del cliente");
-            String matricula = consola.leerCadena("Matrícula del vehículo");
-            LocalDate fechaInicio = consola.leerFecha("Fecha de inicio");
-
-
-            consola.mostrarMensaje("Revisión encontrada (simulado)");
-        } catch (Exception e) {
-            consola.mostrarMensaje("Error al buscar revisión: " + e.getMessage());
-        }
+    private void buscarRevision() {
+        Consola.mostrarCabecera("Buscar Revisión");
+        Revision revision = controlador.buscar(Consola.leerRevision());
+        System.out.println((revision != null) ? revision : "No existe ninguna revision para ese cliente. ");
     }
 
-    private void opcionAnadirHoras() {
-        consola.mostrarCabecera("Añadir Horas a Revisión");
-        try {
 
-            double horas = consola.leerReal("Horas a añadir");
+    private void anadirMaterial() {
+        Consola.mostrarCabecera("Añadir Precio de Material");
+        controlador.anadirHoras(Consola.leerRevision(), Consola.leerPrecioMaterial());
+        System.out.println("Precio material añadido correctamente. ");
 
-            consola.mostrarMensaje("Horas añadidas correctamente (simulado)");
-        } catch (Exception e) {
-            consola.mostrarMensaje("Error al añadir horas: " + e.getMessage());
-        }
     }
 
-    private void opcionAnadirMaterial() {
-        consola.mostrarCabecera("Añadir Precio de Material");
-        try {
-            double precio = consola.leerReal("Precio material a añadir");
-            // controlador.anadirPrecioMaterial(...)
-            consola.mostrarMensaje("Precio de material añadido correctamente (simulado)");
-        } catch (Exception e) {
-            consola.mostrarMensaje("Error al añadir material: " + e.getMessage());
-        }
+    private void cerrarRevision() {
+        Consola.mostrarCabecera("Cerrar Revisión");
+       controlador.cerrar(Consola.leerRevision(), Consola.leerFechaCierre());
+       System.out.println("Revisión cerrada correctamente. ");
     }
 
-    private void opcionCerrarRevision() {
-        consola.mostrarCabecera("Cerrar Revisión");
-        try {
-            LocalDate fechaFin = consola.leerFecha("Fecha de fin");
-            // controlador.cerrarRevision(...)
-            consola.mostrarMensaje("Revisión cerrada correctamente (simulado)");
-        } catch (Exception e) {
-            consola.mostrarMensaje("Error al cerrar revisión: " + e.getMessage());
-        }
-    }
-
-    private void opcionBorrarRevision() {
-        consola.mostrarCabecera("Borrar Revisión");
-        try {
-            // pedir datos similares a buscar revisión
-            // controlador.borrarRevision(...)
-            consola.mostrarMensaje("Revisión borrada correctamente (simulado)");
-        } catch (Exception e) {
-            consola.mostrarMensaje("Error al borrar revisión: " + e.getMessage());
-        }
+    private void borrarCliente() {
+        Consola.mostrarCabecera("Borrar Revisión");
+        controlador.borrar(Consola.leerClienteDni());
+        System.out.println("Cliente borrado correctamente. ");
     }
 }
